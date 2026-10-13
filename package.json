@@ -1,0 +1,28 @@
+{
+  "name": "playwright-webpage-review",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Playwright MCP server for Cursor website-review agents",
+  "scripts": {
+    "start": "tsx src/server.ts",
+    "typecheck": "tsc --noEmit",
+    "smoke": "tsx scripts/smoke.ts",
+    "mcp-smoke": "tsx scripts/mcp-smoke.ts",
+    "postinstall": "playwright install chromium"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@modelcontextprotocol/sdk": "^1.32.1",
+    "playwright": "^1.64.0",
+    "tsx": "^4.23.15",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "typescript": "^7.0.2"
+  }
+}

@@ -1,0 +1,9 @@
+node_modules/
+dist/
+reports/screenshots/
+reports/website-audit.md
+.env
+.DS_Store
+*.log
+test-results/
+playwright-report/
