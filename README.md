@@ -1,4 +1,6 @@
-# playwright-webpage-review
+# webpage-audit
+
+https://github.com/LifeAyush/webpage-audit
 
 A local [MCP](https://modelcontextprotocol.io) server that lets a Cursor agent open a website, interact with it, and collect evidence. The server does not write the audit. The agent follows the `audit_website` prompt and writes `reports/website-audit.md`.
 
