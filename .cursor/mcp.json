@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "playwright-review": {
+      "command": "npx",
+      "args": ["tsx", "src/server.ts"]
+    }
+  }
+}
