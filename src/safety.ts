@@ -20,6 +20,23 @@ const BLOCKED_BUTTON = [
 
 const SENSITIVE_FIELD = /\b(password|passwd|cvv|cvc|cardnumber|card-number|credit-card|creditcard)\b/i;
 
+/** True when an accessible name matches a payment or account-submit pattern. */
+export function isBlockedButtonName(name: string): boolean {
+  const normalized = name.replace(/\s+/g, " ").trim();
+  if (!normalized) return false;
+  return BLOCKED_BUTTON.some((pattern) => pattern.test(normalized));
+}
+
+/** True when field metadata looks like a password or payment field. */
+export function isSensitiveFieldBlob(blob: string, type = ""): boolean {
+  const autocomplete = blob.toLowerCase();
+  return (
+    type === "password" ||
+    autocomplete.includes("cc-") ||
+    SENSITIVE_FIELD.test(blob)
+  );
+}
+
 type FieldInfo = {
   tag: string;
   type: string;
@@ -49,13 +66,8 @@ export function assertAllowedHost(url: string): void {
 export async function assertFillAllowed(locator: Locator, allowSensitive: boolean): Promise<void> {
   if (allowSensitive) return;
   const info = await readField(locator);
-  const autocomplete = info.autocomplete.toLowerCase();
-  const blob = `${info.type} ${autocomplete} ${info.name} ${info.id} ${info.placeholder} ${info.label}`;
-  const sensitive =
-    info.type === "password" ||
-    autocomplete.includes("cc-") ||
-    SENSITIVE_FIELD.test(blob);
-  if (!sensitive) return;
+  const blob = `${info.type} ${info.autocomplete} ${info.name} ${info.id} ${info.placeholder} ${info.label}`;
+  if (!isSensitiveFieldBlob(blob, info.type)) return;
   throw new Error(
     "Refusing to fill a password or payment field. Set allowSensitive only when the user explicitly asked to enter that value.",
   );
@@ -71,7 +83,7 @@ export async function assertActivationAllowed(locator: Locator): Promise<void> {
     (info.tag === "input" && (info.type === "submit" || info.type === "button" || info.type === "image"));
   if (!isButton) return;
   const name = info.label.replace(/\s+/g, " ").trim();
-  if (!name || !BLOCKED_BUTTON.some((pattern) => pattern.test(name))) return;
+  if (!isBlockedButtonName(name)) return;
   throw new Error(
     `Refusing to activate a payment or account button ("${name}"). A link with this name can still be opened for inspection.`,
   );

@@ -419,7 +419,7 @@ export async function browserClose(): Promise<string> {
 
 async function locatorFor(page: Page, ref: string) {
   if (!REF_PATTERN.test(ref)) {
-    throw new Error(`Invalid ref "${ref}". Use a ref from browser_snapshot, such as f1e2.`);
+    throw new Error(`Invalid ref "${ref}". Use a ref from browser_snapshot, such as e1.`);
   }
   if (!session.hasRef(ref)) {
     throw new Error(`Unknown ref "${ref}". Call browser_snapshot again.`);

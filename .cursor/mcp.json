@@ -1,6 +1,6 @@
 {
   "mcpServers": {
-    "playwright-review": {
+    "webpage-audit": {
       "command": "npx",
       "args": ["tsx", "src/server.ts"]
     }

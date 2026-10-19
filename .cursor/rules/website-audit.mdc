@@ -1,18 +1,18 @@
 ---
-description: Evidence-based website audit using the playwright-review MCP browser tools
+description: Evidence-based website audit using the webpage-audit MCP browser tools
 alwaysApply: true
 ---
 
 # Website audit
 
-When the user asks you to review, audit, or inspect a website, use the `playwright-review` MCP tools. If those tools are not available, ask the user to enable **playwright-review** in Cursor Settings → MCP. Fetch the `audit_website` prompt for the target URL and pass any extra focus in its `instructions` argument. That prompt is the checklist. Do not invent console output, network failures, performance numbers, accessibility results, or screenshots.
+When the user asks you to review, audit, or inspect a website, use the `webpage-audit` MCP tools. If those tools are not available, ask the user to enable **webpage-audit** in Cursor Settings → MCP. Fetch the `audit_website` prompt for the target URL and pass any extra focus in its `instructions` argument. That prompt is the checklist. Do not invent console output, network failures, performance numbers, accessibility results, or screenshots.
 
 The server does not write the report. You do, at `reports/website-audit.md`.
 
 ## Tools
 
 - `browser_navigate` opens an http(s) URL. The same hostname reuses the browser context. A different hostname starts a fresh context.
-- `browser_snapshot` returns a nested accessibility tree. Use only `[ref=eN]` values from the latest snapshot.
+- `browser_snapshot` returns a nested accessibility tree. Use only `[ref=e1]`-style values from the latest snapshot.
 - `browser_go_back` returns to the previous page in the tab. `browser_wait` waits for visible text, a ref, or a load state.
 - `browser_set_viewport` uses `desktop` (1440x900) or `mobile` (390x844). Screenshot both.
 - Collect `browser_console`, `browser_network`, `browser_page_info`, `browser_performance`, and `browser_accessibility` on each important page.

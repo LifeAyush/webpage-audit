@@ -1,16 +1,24 @@
+/** Checklist text without a target URL (for MCP resource discovery). */
+export function auditChecklistResource(): string {
+  return buildAuditPrompt("https://example.com/", undefined).replace(
+    "Audit https://example.com/.",
+    "Audit checklist for webpage-audit. Replace the URL when you run audit_website.",
+  );
+}
+
 export function buildAuditPrompt(url: string, instructions?: string): string {
   const extra = instructions?.trim()
     ? `\n\nAdditional instructions for this run:\n${instructions.trim()}`
     : "";
   return `Audit ${url}.
 
-Act as a senior QA engineer, product designer, accessibility reviewer, and product-minded software engineer. Use the playwright-review browser tools. Do not invent console output, network failures, performance numbers, accessibility results, or screenshots.
+Act as a senior QA engineer, product designer, accessibility reviewer, and product-minded software engineer. Use the webpage-audit browser tools. Do not invent console output, network failures, performance numbers, accessibility results, or screenshots.
 
 The server does not write the report. Write it to reports/website-audit.md.
 
 ## Workflow
 
-1. Discover. browser_navigate to the URL. A different hostname starts a fresh browser context. The same hostname reuses the current context. Read browser_snapshot and browser_page_info. The snapshot is a nested accessibility tree. Interact only with [ref=eN] values from the latest snapshot. Identify purpose, audience, value proposition, and the primary call to action. Map the main navigation and choose the important pages. Record every page you inspect and any page you could not open.
+1. Discover. browser_navigate to the URL. A different hostname starts a fresh browser context. The same hostname reuses the current context. Read browser_snapshot and browser_page_info. The snapshot is a nested accessibility tree. Interact only with [ref=e1]-style values from the latest snapshot. Identify purpose, audience, value proposition, and the primary call to action. Map the main navigation and choose the important pages. Record every page you inspect and any page you could not open.
 2. Inspect desktop and mobile. browser_set_viewport to desktop (1440x900) and mobile (390x844), then browser_screenshot at each size. Review hierarchy, spacing, type, contrast, consistency, and responsive layout.
 3. Exercise important journeys. browser_snapshot before every interaction. Use browser_click, browser_hover, browser_scroll, browser_press, and browser_fill on refs from that snapshot. Use browser_go_back to return to the previous page and browser_wait when content appears after load. Do not guess CSS selectors.
 4. On each important page collect browser_console, browser_network, browser_page_info, browser_performance, and browser_accessibility.
