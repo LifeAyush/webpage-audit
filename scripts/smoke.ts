@@ -8,11 +8,14 @@ import {
   browserConsole,
   browserFill,
   browserGoBack,
+  browserHover,
   browserNavigate,
   browserNetwork,
   browserPageInfo,
   browserPerformance,
+  browserPress,
   browserScreenshot,
+  browserScroll,
   browserSetViewport,
   browserSnapshot,
   browserWait,
@@ -78,6 +81,18 @@ async function main(): Promise<void> {
     const password = refFor(snapshot, "textbox", "Password");
     const note = refFor(snapshot, "textbox", "Note");
     const pay = refFor(snapshot, "button", "Pay");
+    const details = refFor(snapshot, "button", "Details");
+
+    const hovered = await browserHover(details);
+    assert(hovered.includes(details), hovered);
+
+    const pressed = await browserPress(note, "Tab");
+    assert(pressed.includes("Tab"), pressed);
+
+    const scrolled = await browserScroll("down");
+    assert(scrolled.includes("Scrolled down"), scrolled);
+    const scrolledUp = await browserScroll("up", details);
+    assert(scrolledUp.includes(details), scrolledUp);
 
     const info = await browserPageInfo();
     assert(info.includes("Fixture page"), info);
@@ -103,8 +118,11 @@ async function main(): Promise<void> {
 
     await expectThrow(() => browserFill(password, "secret"), "password fill");
     await expectThrow(() => browserClick(pay), "pay button");
+    await expectThrow(() => browserPress(pay, "Enter"), "pay Enter");
     const filled = await browserFill(note, "hello");
     assert(filled.includes(note), filled);
+    const sensitiveOk = await browserFill(password, "secret", true);
+    assert(sensitiveOk.includes(password), sensitiveOk);
 
     const clicked = await browserClick(learnMore);
     assert(clicked.includes("/next"), clicked);

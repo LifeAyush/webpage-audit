@@ -7,14 +7,21 @@ const HOME = `<!doctype html>
   <meta charset="utf-8">
   <title>Fixture page</title>
   <meta name="description" content="Local audit fixture">
+  <style>
+    .tall { height: 1600px; margin-top: 24px; }
+    .hint { color: #333; }
+  </style>
 </head>
 <body>
   <h1>Fixture page</h1>
   <a href="/next">Learn more</a>
+  <button type="button" aria-label="Details">Details</button>
   <label>Password <input type="password" name="password" autocomplete="current-password"></label>
   <label>Note <input type="text" name="note" aria-label="Note"></label>
   <button type="button">Pay</button>
   <img src="/missing.png" alt="">
+  <div class="tall" aria-hidden="true"><p class="hint">Scroll spacer</p></div>
+  <p id="bottom">Bottom of page</p>
   <script>console.error("fixture console error")</script>
 </body>
 </html>`;
