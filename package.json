@@ -3,10 +3,31 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Playwright MCP server for Cursor website-review agents",
+  "description": "MCP server that lets an agent audit a site in a real browser",
+  "license": "MIT",
+  "author": "Ayush Patil",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LifeAyush/webpage-audit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/LifeAyush/webpage-audit/issues"
+  },
+  "homepage": "https://github.com/LifeAyush/webpage-audit#readme",
+  "keywords": [
+    "mcp",
+    "playwright",
+    "accessibility",
+    "audit",
+    "axe"
+  ],
+  "bin": {
+    "webpage-audit": "./bin/webpage-audit.mjs"
+  },
   "scripts": {
     "start": "tsx src/server.ts",
     "typecheck": "tsc --noEmit",
+    "test": "tsx --test src/refs.test.ts src/safety.test.ts src/tools-url.test.ts",
     "smoke": "tsx scripts/smoke.ts",
     "mcp-smoke": "tsx scripts/mcp-smoke.ts",
     "postinstall": "playwright install chromium"
