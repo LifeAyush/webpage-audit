@@ -2,7 +2,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import type { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import * as z from "zod/v4";
-import { buildAuditPrompt } from "./prompt.js";
+import { auditChecklistResource, buildAuditPrompt } from "./prompt.js";
 import { session } from "./session.js";
 import {
   browserAccessibility,
@@ -29,9 +29,29 @@ const SAFETY =
   "Do not submit credentials, payments, messages, or account signups. Do not bypass CAPTCHA, authentication, or rate limits. Fill fields with synthetic data only when the user has allowed it.";
 
 const server = new McpServer({
-  name: "playwright-review",
+  name: "webpage-audit",
   version: "1.0.0",
 });
+
+server.registerResource(
+  "audit-checklist",
+  "webpage-audit://checklist",
+  {
+    title: "Website audit checklist",
+    description:
+      "Evidence-based audit workflow. The agent writes reports/website-audit.md; this server only collects evidence.",
+    mimeType: "text/markdown",
+  },
+  async (uri) => ({
+    contents: [
+      {
+        uri: uri.href,
+        mimeType: "text/markdown",
+        text: auditChecklistResource(),
+      },
+    ],
+  }),
+);
 
 server.registerTool(
   "browser_navigate",
